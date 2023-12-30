@@ -1,0 +1,45 @@
+# Install traefik
+---
+- hosts: "master"
+  become: true
+  tasks:
+    # Make sure pip3 is installed
+    - name: install pip3
+      apt:
+        name: python3-pip
+        state: present
+        update_cache: yes
+
+    # Make sure the following python packages are installed
+    - name: install required pip packages
+      pip:
+        name:
+          - kubernetes
+          - pyyaml
+          - jsonpatch
+
+    # added the Traefik repo (i'm not sure if this will auto refresh)
+    - name: Add Traefik repo
+      kubernetes.core.helm_repository:
+        name: traefik
+        repo_url: https://traefik.github.io/charts
+
+    # - name: Create traefik namespace
+    #   kubernetes.core.k8s:
+    #     name: traefik
+    #     api_version: v1
+    #     kind: Namespace
+    #     state: present
+    #     kubeconfig: "/home/harman/.kube/config"
+    #     validate_certs: false
+
+    - name: Deploy latest version of traefik chart inside it's own namespace (and create it)
+      kubernetes.core.helm:
+        name: traefik
+        chart_ref: traefik/traefik
+        values: "{{ lookup('template', '~/projects/k3s-ansible/templates/traefik-config.yaml') | from_yaml }}"
+        release_namespace: traefik
+        create_namespace: true
+        validate_certs: false
+        kubeconfig: "/home/harman/.kube/config"
+        wait: true

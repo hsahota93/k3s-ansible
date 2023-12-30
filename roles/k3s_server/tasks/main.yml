@@ -28,7 +28,11 @@
     cmd: "systemd-run -p RestartSec=2 \
                       -p Restart=on-failure \
                       --unit=k3s-init \
-                      k3s server {{ server_init_args }}"
+                      k3s server {{ server_init_args }} \
+                      --tls-san {{ apiserver_endpoint }} \
+                      --disable servicelb \
+                      --disable traefik \
+                      --write-kubeconfig-mode 644"
     creates: "{{ systemd_dir }}/k3s.service"
 
 - name: Verification
