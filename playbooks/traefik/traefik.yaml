@@ -24,15 +24,14 @@
         name: traefik
         repo_url: https://traefik.github.io/charts
 
-    # - name: Create traefik namespace
-    #   kubernetes.core.k8s:
-    #     name: traefik
-    #     api_version: v1
-    #     kind: Namespace
-    #     state: present
-    #     kubeconfig: "/home/harman/.kube/config"
-    #     validate_certs: false
+    # TODO: get the below working
+    # helm -n kube-system delete traefik traefik-crd
+    # kubectl -n kube-system delete helmchart traefik traefik-crd
+    # touch /var/lib/rancher/k3s/server/manifests/traefik.yaml.skip
+    # kubectl delete svc traefik -n kube-system
+    # systemctl restart k3s
 
+    # Deploy Traefik
     - name: Deploy latest version of traefik chart inside it's own namespace (and create it)
       kubernetes.core.helm:
         name: traefik
@@ -41,5 +40,12 @@
         release_namespace: traefik
         create_namespace: true
         validate_certs: false
+        kubeconfig: "/home/harman/.kube/config"
+        wait: true
+
+    - name: Deploy default headers
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('template', '~/projects/k3s-ansible/templates/default-headers.yaml') | from_yaml }}"
         kubeconfig: "/home/harman/.kube/config"
         wait: true
