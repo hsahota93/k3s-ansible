@@ -49,3 +49,10 @@
         definition: "{{ lookup('template', '~/projects/k3s-ansible/templates/default-headers.yaml') | from_yaml }}"
         kubeconfig: "/home/harman/.kube/config"
         wait: true
+    
+    # Deploying the dashboard secret
+    - name: Install the traefik dashboard
+      kubernetes.core.k8s:
+        state: present
+        src: /home/harman/projects/k3s-ansible/templates/secret-dashboard.yaml
+        kubeconfig: "/home/harman/.kube/config"

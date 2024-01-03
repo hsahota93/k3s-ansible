@@ -7,3 +7,8 @@
       update_cache: yes
       upgrade: 'yes'
 
+  # Use this to create a password for the traefik dashboard
+  - name: Install apache2-utils
+    apt:
+      name: iptables
+      state: present
