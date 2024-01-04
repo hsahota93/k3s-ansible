@@ -1,3 +1,1 @@
-#!/bin/bash
-
-ansible-playbook reset.yml --ask-pass --ask-become-pass
+ansible-playbook ./playbooks/reset.yaml -i ./inventory/k3s_cluster/hosts.ini -K --ask-pass

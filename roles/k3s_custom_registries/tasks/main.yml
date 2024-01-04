@@ -1,9 +1,0 @@
----
-- name: Create directory /etc/rancher/k3s
-  file:
-    path: "/etc/{{ item }}"
-    state: directory
-    mode: '0755'
-  loop:
-    - rancher
-    - rancher/k3s

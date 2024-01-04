@@ -1,3 +1,1 @@
-#!/bin/bash
-
-ansible-playbook site.yml
+ansible-playbook ./playbooks/site.yaml -i ./inventory/k3s_cluster/hosts.ini -K --ask-pass

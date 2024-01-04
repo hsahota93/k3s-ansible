@@ -1,5 +1,6 @@
 {
     "yaml.schemas": {
         "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": "file://wsl.localhost/Ubuntu-22.04/home/harman/projects/k3s-ansible/playbooks/traefik/traefik.yaml"
-    }
+    },
+    "ansible.python.interpreterPath": "c:\\Users\\Harman\\AppData\\Local\\Programs\\Python\\Python39\\python.exe"
 }
