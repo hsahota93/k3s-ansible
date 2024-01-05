@@ -1,0 +1,12 @@
+---
+- name: kubectl apply -f nginx-deployment.yaml
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', 'templates/test-apps/nginx/nginx-deployment.yaml') | from_yaml }}"
+    kubeconfig: "/home/harman/.kube/config"
+
+- name: kubectl apply -f nginx-service.yaml
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', 'templates/test-apps/nginx/nginx-service.yaml') | from_yaml }}"
+    kubeconfig: "/home/harman/.kube/config"

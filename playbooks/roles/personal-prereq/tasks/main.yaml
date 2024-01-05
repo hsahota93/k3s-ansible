@@ -1,0 +1,34 @@
+---
+- name: Update and upgrade apt packages
+  apt:
+    update_cache: true
+    upgrade: "yes"
+
+- name: Set timezone and configure timesyncd
+  shell: timedatectl set-timezone America/New_York
+
+- name: Install a required apt packages
+  apt:
+    state: present
+    update_cache: true
+    pkg:
+      - nala
+      - zsh
+      - iptables
+      - python3-pip
+
+- name: Install required pip packages
+  pip:
+    name:
+      - kubernetes
+      - pyyaml
+      - jsonpatch
+
+- name: Set zsh as default shell
+  shell: "chsh -s $(which zsh)"
+
+- name: Install oh-my-zsh
+  shell: "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+
+- name: Update Plugins for oh-my-zsh
+  shell: "sed 's/^plugins=.*/plugins=(git kubectl)/' /home/harman/.zshrc"

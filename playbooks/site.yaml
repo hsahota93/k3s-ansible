@@ -4,9 +4,10 @@
   gather_facts: true
   become: true
   roles:
-    - role: prereq
+    - role: personal-prereq
+    - role: k3s-prereq
     - role: airgap
-    # - role: raspberrypi
+    - role: raspberrypi
 
 - name: Setup K3S master
   hosts: master
@@ -19,3 +20,10 @@
   become: true
   roles:
     - role: k3s_agent
+
+- name: Deploy Test Apps
+  hosts: k3s_cluster
+  gather_facts: true
+  become: true
+  roles:
+    - role: test-nginx
